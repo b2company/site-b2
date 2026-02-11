@@ -10,12 +10,17 @@ original_size = len(html)
 
 # Remover CSS do WP Admin Bar
 print("🗑️  Removendo CSS do WordPress...")
+html = re.sub(r'<style[^>]*admin-bar[^>]*>.*?</style>', '', html, flags=re.DOTALL)
 html = re.sub(r'<style>[^<]*?#wpadminbar.*?</style>', '', html, flags=re.DOTALL)
 html = re.sub(r'<style>/\*! This file is auto-generated \*/html\{--wp-admin.*?</style>', '', html, flags=re.DOTALL)
 
 # Remover div do WP Admin Bar
 print("🗑️  Removendo HTML do WordPress...")
-html = re.sub(r'<div id="wpadminbar".*?</div>\s*(?=<div)', '', html, flags=re.DOTALL)
+html = re.sub(r'<div id="?wpadminbar"?[^>]*>.*?</div>\s*(?=<div)', '', html, flags=re.DOTALL)
+
+# Remover classe admin-bar do body
+print("🗑️  Removendo classe admin-bar...")
+html = re.sub(r'\badmin-bar\b', '', html)
 
 # Remover scripts relacionados
 html = re.sub(r'<script[^>]*wp-admin[^>]*>.*?</script>', '', html, flags=re.DOTALL)
